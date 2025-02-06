@@ -1,11 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import  HomePage from './Pages/home/HomePage.jsx';
-import LoginPage from './Pages/LoginPage.jsx';
-import SignUpPage from './Pages/SignUpPage.jsx';
+import HomePage from "./Pages/home/HomePage.jsx";
+import LoginPage from "./Pages/LoginPage.jsx";
+import SignUpPage from "./Pages/SignUpPage.jsx";
 import Footer from "./components/footer.jsx";
 import { Toaster } from "react-hot-toast";
-import { useAuthStore } from "./store/authUser.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import WatchPage from "./Pages/WatchPage.jsx";
 import SearchPage from "./Pages/SearchPage.jsx";
@@ -13,15 +12,17 @@ import SearchHistoryPage from "./Pages/SearchHistoryPage.jsx";
 import NotFoundPage from "./Pages/404.jsx";
 
 function App() {
-  const { user, isCheckingAuth, authCheck } = useAuthStore();
-  console.log("auth user is here:", user);
+  const [user, setUser] = useState(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    authCheck();
-  }, [authCheck
-
-    
-  ]);
+    // Simulate authentication check using localStorage
+    const storedUser = localStorage.getItem("authUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setIsCheckingAuth(false);
+  }, []);
 
   if (isCheckingAuth) {
     return (
@@ -33,23 +34,35 @@ function App() {
     );
   }
 
-  return(
-    <>  
+  return (
+    <>
       <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/login" element={!user ? <LoginPage/> : <Navigate to={"/"} /> } />
-        <Route path="/signup" element={!user ? <SignUpPage/> : <Navigate to={"/"} /> } />
-        <Route path="/watch/:id" element={user ? <WatchPage/> : <Navigate to={"/login"} /> } />
-        <Route path="/search" element={user ? <SearchPage/> : <Navigate to={"/login"} /> } />
-        <Route path="/history" element={user ? <SearchHistoryPage/> : <Navigate to={"/login"} /> } />
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/login"
+          element={!user ? <LoginPage setUser={setUser} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/signup"
+          element={!user ? <SignUpPage setUser={setUser} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/watch/:id"
+          element={user ? <WatchPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/search"
+          element={user ? <SearchPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/history"
+          element={user ? <SearchHistoryPage /> : <Navigate to="/login" />}
+        />
         <Route path="/*" element={<NotFoundPage />} />
-
-
       </Routes>
-      <Footer/>
-
-    <Toaster/>
-  </>
+      <Footer />
+      <Toaster />
+    </>
   );
 }
 
