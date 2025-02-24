@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/home/HomePage.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
 import SignUpPage from "./Pages/SignUpPage.jsx";
-import Footer from "./components/footer.jsx";
+import Footer from "./components/footer.jsx";  // Keep this line
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
@@ -10,8 +10,6 @@ import WatchPage from "./Pages/WatchPage.jsx";
 import SearchPage from "./Pages/SearchPage.jsx";
 import SearchHistoryPage from "./Pages/SearchHistoryPage.jsx";
 import NotFoundPage from "./Pages/404.jsx";
-import Footer from './components/footer.jsx'; 
-
 
 function App() {
   const [user, setUser] = useState(null);
