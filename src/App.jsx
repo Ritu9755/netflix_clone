@@ -10,6 +10,8 @@ import WatchPage from "./Pages/WatchPage.jsx";
 import SearchPage from "./Pages/SearchPage.jsx";
 import SearchHistoryPage from "./Pages/SearchHistoryPage.jsx";
 import NotFoundPage from "./Pages/404.jsx";
+import Footer from './components/footer.jsx'; 
+
 
 function App() {
   const [user, setUser] = useState(null);
